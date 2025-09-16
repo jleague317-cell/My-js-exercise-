@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+body {
+  background-color: #004754;
+  background: linear-gradient(to right, #004754, #bebd00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+ :root{
+    --size: 320px;          /* overall clock size */
+    --rim: 12px;            /* border thickness */
+    --bg: #0f1222;
+    --face: #1a1f36;
+    --rim-color: #e8eefc;
+    --tick: #c7d2fe;
+    --hand: #e5e7eb;
+    --second: #ef4444;
+    --shadow: 0 12px 30px rgba(0,0,0,.35), inset 0 0 2px rgba(255,255,255,.12);
+  }
+
+
+
+  .clock {
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: radial-gradient(120% 120% at 30% 20%, #222a45, var(--face));
+    border: var(--rim) solid var(--rim-color);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  /* center pivot */
+  .pivot {
+    position: absolute;
+    width: 14px; height: 14px;
+    background: #f9fafb;
+    border: 2px solid #111827;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 6;
+  }
+
+  /* common hand styles */
+  .hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;                  /* anchor at the clock center */
+    transform-origin: 50% 100%;    /* rotate around the bottom center */
+    transform: translateX(-50%) rotate(0deg);
+    border-radius: 10px;
+    will-change: transform;
+  }
+  .hand.hour {
+    width: 8px; height: calc(var(--size) * 0.23);
+    background: linear-gradient(#d1d5db, #9ca3af);
+    z-index: 3;
+  }
+  .hand.minute {
+    width: 6px; height: calc(var(--size) * 0.32);
+    background: linear-gradient(#f3f4f6, #d1d5db);
+    z-index: 4;
+  }
+  .hand.second {
+    width: 3px; height: calc(var(--size) * 0.36);
+    background: var(--second);
+    box-shadow: 0 0 8px rgba(239,68,68,.6);
+    z-index: 5;
+  }
+
+  /* tail for second hand (optional) */
+  .second::after{
+    content:"";
+    position:absolute;
+    bottom:-12%;
+    left:50%;
+    width: 2px; height: calc(var(--size) * 0.08);
+    transform: translateX(-50%);
+    background: var(--second);
+    opacity: .9;
+    border-radius: 2px;
+  }
+
+  /* tick marks container */
+  .ticks, .numbers {
+    position: absolute;
+    inset: 0;
+  }
+
+  .tick {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-origin: 50% calc((var(--size)/2) - var(--rim));
+  }
+
+  /* minute ticks */
+  .tick i {
+    display: block;
+    width: 2px;
+    height: 10px;
+    background: var(--tick);
+    opacity: .55;
+    border-radius: 2px;
+    transform: translate(-50%, calc((var(--rim) - var(--size)/2)));
+  }
+
+  /* hour ticks (every 5th) */
+  .tick.major i {
+    width: 4px;
+    height: 18px;
+    opacity: .9;
+  }
+
+  /* optional numerals */
+  .num {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 2ch; text-align: center;
+    color: #e5e7eb;
+    font-weight: 700;
+    letter-spacing: .02em;
+    transform-origin: 50% calc((var(--size)/2) - 44px);
+    text-shadow: 0 1px 2px rgba(0,0,0,.35);
+  }
+
+  /* subtle inner glass */
+  .glass {
+    position:absolute; inset: 0;
+    background: radial-gradient(120% 100% at 30% 0%, rgba(255,255,255,.10), rgba(255,255,255,0) 55%),
+                radial-gradient(100% 100% at 50% 120%, rgba(255,255,255,.05), rgba(255,255,255,0) 60%);
+    pointer-events:none;
+    border-radius:50%;
+    z-index:1;
+  }
